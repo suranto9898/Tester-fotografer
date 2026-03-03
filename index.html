@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NocturnalStory | Cinematic Photography Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+    :root {
+        --bg-nocturnal: #0b0b10;
+        --gold-accent: #c5a358;
+        --text-light: #ffffff;
+        --text-muted: #888888;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(rgba(11, 11, 16, 0.9), rgba(11, 11, 16, 0.9)), url('background.jpg'); 
+        background-size: cover; background-position: center; background-attachment: fixed;
+        background-color: var(--bg-nocturnal); color: var(--text-light);
+        scroll-behavior: smooth; overflow-x: hidden;
+    }
+
+    h1, h2, h3, .brand-name { font-family: 'Playfair Display', serif; }
+
+    /* NAVBAR GLASSMORPHISM */
+    .navbar { 
+        padding: 1rem 0; 
+        background: rgba(11, 11, 16, 0.8) !important; 
+        backdrop-filter: blur(15px); /* Efek blur kaca */
+        -webkit-backdrop-filter: blur(15px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(197, 163, 88, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    /* MEMUNCULKAN KEMBALI BRAND NAME */
+    .navbar-brand {
+        font-size: 1.5rem; 
+        font-weight: 700; 
+        letter-spacing: 4px;
+        color: var(--gold-accent) !important; /* Paksa warna emas */
+        position: relative;
+        z-index: 1100; /* Pastikan di atas layer glass */
+        text-shadow: 0 0 10px rgba(197, 163, 88, 0.3); /* Glow halus */
+        transition: 0.3s;
+    }
+
+    .navbar-brand:hover {
+        color: #fff !important; /* Berubah putih saat disentuh */
+        text-shadow: 0 0 15px var(--gold-accent);
+    }
+
+    @keyframes goldGlow {
+        0%, 100% { text-shadow: 0 0 5px rgba(197, 163, 88, 0.2); }
+        50% { text-shadow: 0 0 15px rgba(197, 163, 88, 0.6); }
+    }
+
+        /* HERO PARALLAX ENHANCED */
+    .hero { 
+        padding: 150px 0; 
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh; /* Membuat area hero lebih lega */
+    }
+
+    /* Efek Gradasi Teks agar lebih premium */
+    .hero h1 { 
+        font-size: clamp(2.5rem, 8vw, 5.5rem); 
+        margin-bottom: 20px; 
+        font-style: italic;
+        background: linear-gradient(to bottom, #ffffff 30%, var(--gold-accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.1;
+    }
+
+
+    /* Garis dekoratif di bawah judul */
+    .divider-gold {
+        width: 60px;
+        height: 2px;
+        background: var(--gold-accent);
+        margin-top: 15px;
+        box-shadow: 0 0 10px var(--gold-accent);
+    }
+
+    .gold-glow {
+        color: var(--gold-accent);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    /* Opsional: Memperkecil margin antar frame di dalam box agar lebih rapat */
+    .portfolio-collection-wrapper .category-frame {
+        background: rgba(0, 0, 0, 0.2);
+        margin-bottom: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+
+    /* ABOUT ME & FEATURES */
+    .about-section { padding: 100px 0; background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(5px); }
+    .about-image {
+        width: 100%; height: 600px; object-fit: cover; border-radius: 12px;
+        border: 1px solid rgba(197, 163, 88, 0.2); filter: grayscale(100%); transition: 0.5s;
+    }
+    .about-image:hover { filter: grayscale(0%); border-color: var(--gold-accent); }
+    .about-text h2 { font-size: 3rem; color: var(--gold-accent); margin-bottom: 25px; }
+    
+    .feature-box {
+        background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(197, 163, 88, 0.1);
+        padding: 25px; border-radius: 12px; transition: 0.4s; height: 100%; backdrop-filter: blur(10px);
+    }
+    .feature-box:hover { border-color: var(--gold-accent); transform: translateY(-5px); background: rgba(197, 163, 88, 0.05); }
+    .feature-icon { font-size: 1.8rem; color: var(--gold-accent); margin-bottom: 15px; }
+    .feature-box h5 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+    .feature-box p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+    /* PORTFOLIO GRID */
+    .category-frame {
+        background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px);
+        border: 1px solid rgba(197, 163, 88, 0.1); padding: 30px;
+        margin-bottom: 50px; border-radius: 15px;
+    }
+    .category-title {
+        color: var(--gold-accent); border-left: 3px solid var(--gold-accent);
+        padding-left: 15px; margin-bottom: 30px; letter-spacing: 3px; text-transform: uppercase;
+    }
+
+    .swiper { width: 100%; height: 420px; border-radius: 10px; }
+    .gallery-item { position: relative; overflow: hidden; height: 420px; border-radius: 8px; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 1s; }
+    .gallery-item:hover img { transform: scale(1.1); filter: grayscale(0%); }
+    .gallery-info { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); opacity: 0; transition: 0.3s; }
+    .gallery-item:hover .gallery-info { opacity: 1; }
+
+    .price-original {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        font-size: 1rem;
+        display: block;
+        margin-bottom: -5px;
+        opacity: 0.6;
+    }
+    .price-promo {
+        color: var(--gold-accent);
+        font-weight: 700;
+    }
+
+    /* Box Pembungkus Utama */
+    .portfolio-collection-wrapper {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(197, 163, 88, 0.1);
+        border-radius: 40px;
+        padding: 80px 40px;
+        margin-bottom: 100px;
+        backdrop-filter: blur(10px);
+        box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+    }
+    
+    .collection-header {
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    .divider-gold {
+        width: 80px;
+        height: 2px;
+        background: var(--gold-accent);
+        margin: 20px auto;
+        box-shadow: 0 0 15px var(--gold-accent);
+    }
+
+
+    .price-card { position: relative; overflow: hidden; }
+    .promo-badge {
+        position: absolute; top: 15px; right: -30px;
+        background: #ff4757; color: white; padding: 5px 35px;
+        font-size: 10px; font-weight: 700; transform: rotate(45deg);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .price-original {
+        text-decoration: line-through;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        display: block;
+        opacity: 0.5;
+    }
+    .price-promo { color: var(--gold-accent); font-weight: 700; }
+
+    /* BUTTONS ENHANCED */
+    .btn-gold-custom {
+        background: var(--gold-accent); 
+        color: #000; 
+        border-radius: 4px;
+        padding: 15px 40px; 
+        text-transform: uppercase; 
+        letter-spacing: 2px;
+        font-size: 11px; 
+        font-weight: 700; 
+        border: none; 
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        display: inline-block;
+        box-shadow: 0 0 0 rgba(197, 163, 88, 0);
+    }
+
+    .btn-gold-custom:hover { 
+        background: #fff; 
+        color: #000; 
+        transform: translateY(-5px) scale(1.03); 
+        box-shadow: 0 15px 30px rgba(197, 163, 88, 0.4), 0 0 20px rgba(197, 163, 88, 0.2); 
+    }
+
+    .btn-gold-custom:active {
+        transform: translateY(-2px);
+    }
+
+    
+    /* Cursor Custom */
+    #cursor {
+        width: 20px; height: 20px;
+        background: var(--gold-accent);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: transform 0.1s ease;
+    }
+
+
+    /* PRICING */
+    .price-card {
+        background: rgba(17, 17, 22, 0.6); border: 1px solid rgba(255,255,255,0.05);
+        padding: 40px; border-radius: 15px; transition: 0.3s; text-align: center;
+    }
+    .price-card:hover { border-color: var(--gold-accent); transform: translateY(-10px); }
+
+    footer { padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">NOCTURNALSTORY</a>
+        <div class="ms-auto d-flex gap-3 gap-md-4">
+            <a href="#about" class="text-white text-decoration-none small d-none d-md-block opacity-50">ABOUT</a>
+            <a href="#nature" class="text-white text-decoration-none small d-none d-md-block opacity-50">NATURE</a>
+            <a href="#wedding" class="text-white text-decoration-none small d-none d-md-block opacity-50">WEDDING</a>
+            <a href="#modeling" class="text-white text-decoration-none small d-none d-md-block opacity-50">MODELING</a>
+            <a href="#pricing" class="text-white text-decoration-none small d-none d-md-block opacity-50">PRICING</a>
+        </div>
+    </div>
+</nav>
+
+<header class="hero container" id="hero-parallax" data-aos="zoom-in" data-aos-duration="1500">
+    <span class="job-badge">Cinematic Photographer</span>
+    <h1>Capturing stories <br>written in the memories.</h1>
+    <p class="opacity-50 mt-4">Nature • Wedding • Modeling • Commercial Photography</p>
+    <button class="btn btn-gold-custom mt-4" onclick="scrollToGallery()">Explore Gallery</button>
+</header>
+
+
+<section class="about-section" id="about">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-md-5" data-aos="fade-right">
+                <img src="profile.jpg" alt="Nocturnal" class="about-image">
+            </div>
+            <div class="col-md-7 about-text" data-aos="fade-left">
+                <span class="job-badge">The Man Behind the Lens</span>
+                <h2>Hello, I'm Nocturnal.</h2>
+                <p>Saya Nocturnal, fotografer yang berfokus pada dokumentasi visual dengan pendekatan rapi, konsisten, dan bertanggung jawab.<p>
+                <p>Saya mengutamakan kualitas hasil, ketepatan waktu, serta komunikasi yang jelas dalam setiap proses kerja.<p>
+                <p>Dengan pengalaman menangani berbagai kebutuhan dokumentasi, saya berkomitmen memberikan hasil foto yang sesuai brief, representatif, dan siap digunakan untuk kebutuhan personal maupun komersial.</p>
+                
+                <div class="row g-3 mt-2 mb-4">
+                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-box">
+                            <i class="fas fa-camera-retro feature-icon"></i>
+                            <h5>Equipment</h5>
+                            <p>Gear standar industri untuk hasil cinematic.</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-box">
+                            <i class="fas fa-heart feature-icon"></i>
+                            <h5>Passionate</h5>
+                            <p>Setiap frame diambil dengan dedikasi.</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-box">
+                            <i class="fas fa-users feature-icon"></i>
+                            <h5>Focused</h5>
+                            <p>Lebih dari 1.000 pelanggan terabadikan</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-box">
+                            <i class="fas fa-award feature-icon"></i>
+                            <h5>Awards</h5>
+                            <p>Exsperience Lebih dari 10 Tahun</p>
+                        </div>
+                    </div>
+     
+    </div>
+</section>
+
+<section class="container py-5" id="portfolio">
+    <div class="portfolio-collection-wrapper" data-aos="fade-up">
+        
+        <div class="text-center mb-5">
+            <span class="job-badge">Visual Archives</span>
+            <h2 class="display-6 gold-glow">My Collections</h2>
+            <div class="divider-gold mx-auto"></div>
+        </div>
+
+        <div class="category-frame" id="nature">
+            <h3 class="category-title">NATURE</h3>
+            <div class="swiper mySwiperNature">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><a href="nature1.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature1.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="nature2.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature2.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="nature3.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature3.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="nature4.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature4.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="nature5.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature5.jpg"></div></a></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="category-frame" id="wedding">
+            <h3 class="category-title">WEDDING</h3>
+            <div class="swiper mySwiperWedding">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><a href="wedding1.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding1.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="wedding2.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding2.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="wedding3.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding3.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="wedding4.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding4.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="wedding5.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding5.jpg"></div></a></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="category-frame" id="modeling">
+            <h3 class="category-title">MODELING</h3>
+            <div class="swiper mySwiperModeling">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><a href="model1.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model1.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="model2.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model2.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="model3.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model3.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="model4.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model4.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="model5.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model5.jpg"></div></a></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="category-frame" id="others">
+            <h3 class="category-title">OTHERS</h3>
+            <div class="swiper mySwiperOthers">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><a href="other1.jpg" data-lightbox="others"><div class="gallery-item"><img src="other1.jpg" loading="lazy"><div class="gallery-info"><h6>Street 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other2.jpg" data-lightbox="others"><div class="gallery-item"><img src="other2.jpg" loading="lazy"><div class="gallery-info"><h6>Street 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other3.jpg" data-lightbox="others"><div class="gallery-item"><img src="other3.jpg" loading="lazy"><div class="gallery-info"><h6>Urban 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other4.jpg" data-lightbox="others"><div class="gallery-item"><img src="other4.jpg" loading="lazy"><div class="gallery-info"><h6>Urban 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other5.jpg" data-lightbox="others"><div class="gallery-item"><img src="other5.jpg" loading="lazy"><div class="gallery-info"><h6>Cinematic 01</h6></div></div></a></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+    </div> </section>
+
+<section class="container py-5" id="pricing">
+    <div class="row mb-5 text-center" data-aos="fade-up">
+        <h2 class="display-5">Pilihan Paket</h2>
+        <p class="opacity-50">Pilih paket cerita yang ingin kamu abadikan.</p>
+    </div>
+    <div class="row g-4" id="pricing-container">
+        <div class="text-center opacity-50">Memuat daftar paket...</div>
+    </div>
+</section>
+
+
+</section>
+
+<footer>
+    <div class="container">
+        <h2 class="brand-name mb-4" style="color: var(--gold-accent);">NOCTURNALSTORY.</h2>
+        <div class="d-flex justify-content-center gap-4 mb-4">
+            <a href="https://instagram.com/usernamekamu" class="text-white opacity-50 social-link"><i class="fab fa-instagram fa-lg"></i></a>
+            <a href="https://wa.me/nomorkamu" class="text-white opacity-50 social-link"><i class="fab fa-whatsapp fa-lg"></i></a>
+        </div>
+        <p class="small opacity-25">© 2026 NocturnalStory. All rights reserved.</p>
+        <p class="small opacity-25"> Created By Me. </p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+    // 1. Inisialisasi AOS (Animasi)
+    AOS.init({ duration: 1000, once: true });
+
+    // 2. Konfigurasi Swiper (Slider)
+    const swiperConfig = {
+        autoplay: { delay: 3000 },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        slidesPerView: 1, 
+        spaceBetween: 20,
+        breakpoints: { 
+            768: { slidesPerView: 2 }, 
+            1024: { slidesPerView: 3 } 
+        }
+    };
+
+    // 3. Jalankan Slider
+    new Swiper(".mySwiperNature", swiperConfig);
+    new Swiper(".mySwiperWedding", swiperConfig);
+    new Swiper(".mySwiperModeling", swiperConfig);
+    new Swiper(".mySwiperOthers", swiperConfig);
+
+    // 4. Fungsi Ambil Data dari Google Sheets
+    async function loadPricingFromSheet() {
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXBJDixgfr5eLncrnlRQWkovEr1FlbSPAFoQ1rl9hQAREGNAsoUIeBLpqRn3k3pEA-RcSuOPI7s4O0/pub?output=csv';
+        
+        try {
+            const response = await fetch(sheetUrl);
+            const data = await response.text();
+            const rows = data.split('\n').slice(1); 
+            
+            let htmlContent = '';
+            
+            rows.forEach((row, index) => {
+                const cols = row.split(',');
+                if (cols.length < 2) return;
+
+                const namaPaket = cols[0]; // A
+                const hargaAsli = cols[1]; // B
+                const fitur1    = cols[2]; // C
+                const fitur2    = cols[3]; // D
+                const fitur3    = cols[4]; // E
+                const hargaPromo = cols[5]; // F
+                const promoTag   = cols[6]; // G
+                
+                const delay = (index + 1) * 100;
+
+                let tampilanHarga = '';
+                let badgeHtml = '';
+
+                // --- LOGIKA BADGE ---
+                if (promoTag && promoTag.trim() !== "") {
+                    badgeHtml = `<div class="promo-badge">${promoTag.toUpperCase()}</div>`;
+                }
+
+                // --- LOGIKA HARGA (Cegah NaN jika isi kolom F adalah teks) ---
+                const isPromoAngka = !isNaN(parseFloat(hargaPromo)) && isFinite(hargaPromo);
+
+                if (isPromoAngka && hargaPromo.trim() !== "0") {
+                    tampilanHarga = `
+                        <span class="price-original">Rp ${Number(hargaAsli).toLocaleString('id-ID')}</span>
+                        <h2 class="my-2 price-promo">Rp ${Number(hargaPromo).toLocaleString('id-ID')}</h2>`;
+                } else {
+                    tampilanHarga = `<h2 class="my-4">Rp ${Number(hargaAsli).toLocaleString('id-ID')}</h2>`;
+                }
+
+                // --- LOGIKA PESAN WA OTOMATIS ---
+                const pesanWA = encodeURIComponent(`Halo NocturnalStory, saya tertarik untuk booking *Paket ${namaPaket}*. Mohon informasi lebih lanjut.`);
+                const linkWA = `https://wa.me/6285725493220?text=${pesanWA}`;
+
+                htmlContent += `
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="${delay}">
+                        <div class="price-card"> 
+                            ${badgeHtml}
+                            <h6 class="fw-bold opacity-50">${namaPaket.toUpperCase()}</h6>
+                            ${tampilanHarga}
+                            <ul class="list-unstyled mb-5 small opacity-75 text-start">
+                                <li class="mb-2"><i class="fas fa-check me-2 text-success"></i> ${fitur1}</li>
+                                <li class="mb-2"><i class="fas fa-check me-2 text-success"></i> ${fitur2}</li>
+                                <li class="mb-2"><i class="fas fa-check me-2 text-success"></i> ${fitur3}</li>
+                            </ul>
+                            <a href="${linkWA}" target="_blank" class="btn btn-gold-custom w-100">Book Session</a>
+                        </div>
+                    </div>`;
+            });
+            
+            document.getElementById('pricing-container').innerHTML = htmlContent;
+            AOS.refresh();
+            
+        } catch (error) {
+            console.error('Error fetching sheet:', error);
+            document.getElementById('pricing-container').innerHTML = '<p class="text-danger">Gagal memuat harga promo.</p>';
+        }
+    }
+
+    loadPricingFromSheet();
+
+    function scrollToGallery() {
+        document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+<div id="cursor"></div>
+<script>
+    const cursor = document.querySelector('#cursor');
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+    
+   </script>
+   <script>
+    window.addEventListener('scroll', function() {
+        const scrollValue = window.scrollY;
+        const heroText = document.querySelector('#hero-parallax');
+        // Menggerakkan hero ke bawah sedikit saat scroll (efek parallax)
+        heroText.style.transform = `translateY(${scrollValue * 0.3}px)`;
+        heroText.style.opacity = 1 - (scrollValue / 700); // Menghilang perlahan saat scroll
+    });
+</script>
+
+   
+</body>
+</html>
