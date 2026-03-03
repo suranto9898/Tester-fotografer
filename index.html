@@ -162,6 +162,57 @@
         font-weight: 700;
     }
 
+    /* GALERI DENGAN EFEK REVEAL */
+    .gallery-item { 
+        position: relative; 
+        overflow: hidden; 
+        height: 420px; 
+        border-radius: 12px; /* Lebih bulat sedikit agar modern */
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: #000;
+    }
+
+    .gallery-item img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        filter: grayscale(100%) brightness(0.7); /* Lebih gelap & hitam putih di awal */
+        transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); 
+    }
+
+    .gallery-item:hover img { 
+        transform: scale(1.1); 
+        filter: grayscale(0%) brightness(1); /* Berubah warna & terang saat hover */
+    }
+
+    /* Info di dalam foto yang lebih cinematic */
+    .gallery-info { 
+        position: absolute; 
+        bottom: 0; 
+        left: 0;
+        width: 100%; 
+        padding: 30px 20px; 
+        background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
+        opacity: 0; 
+        transform: translateY(20px); /* Muncul dari bawah */
+        transition: all 0.5s ease;
+        z-index: 2;
+    }
+
+    .gallery-item:hover .gallery-info { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+
+    .gallery-info h6 {
+        color: var(--gold-accent);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        margin: 0;
+    }
+
+
     /* Box Pembungkus Utama */
     .portfolio-collection-wrapper {
         background: rgba(255, 255, 255, 0.02);
@@ -184,6 +235,40 @@
         background: var(--gold-accent);
         margin: 20px auto;
         box-shadow: 0 0 15px var(--gold-accent);
+    }
+
+    /* BACK TO TOP BUTTON */
+    #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: rgba(197, 163, 88, 0.1);
+        border: 1px solid var(--gold-accent);
+        color: var(--gold-accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    #backToTop.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #backToTop:hover {
+        background: var(--gold-accent);
+        color: #000;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(197, 163, 88, 0.3);
     }
 
 
@@ -244,28 +329,236 @@
     }
 
 
-    /* PRICING */
+        /* PRICING CARD PREMIUM */
     .price-card {
-        background: rgba(17, 17, 22, 0.6); border: 1px solid rgba(255,255,255,0.05);
-        padding: 40px; border-radius: 15px; transition: 0.3s; text-align: center;
+        background: rgba(255, 255, 255, 0.03); 
+        border: 1px solid rgba(197, 163, 88, 0.2);
+        padding: 40px; 
+        border-radius: 20px; 
+        transition: all 0.4s ease; 
+        text-align: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        position: relative;
+        overflow: hidden;
     }
-    .price-card:hover { border-color: var(--gold-accent); transform: translateY(-10px); }
 
-    footer { padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+    .price-card:hover { 
+        border-color: var(--gold-accent); 
+        transform: translateY(-15px); 
+        background: rgba(197, 163, 88, 0.05);
+        box-shadow: 0 30px 60px rgba(197, 163, 88, 0.15);
+    }
+
+    /* CSS untuk Link Navigasi */
+    .nav-link-custom {
+        color: #fff;
+        text-decoration: none;
+        font-size: 11px;
+        letter-spacing: 2px;
+        opacity: 0.5;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .nav-link-custom:hover {
+        opacity: 1;
+        color: var(--gold-accent);
+    }
+
+    /* Mengubah warna icon hamburger menjadi Emas */
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3 listings%3E%3Cpath stroke='rgba(197, 163, 88, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+    }
+
+    /* Tampilan Menu saat Terbuka di Mobile */
+    @media (max-width: 991px) {
+        .navbar-collapse {
+            background: rgba(11, 11, 16, 0.98);
+            margin-top: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(197, 163, 88, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .nav-link-custom {
+            display: block;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .nav-link-custom:last-child {
+            border-bottom: none;
+        }
+    }
+
+
+            /* FOOTER COMPACT - STRUKTUR SESUAI USER */
+    footer { 
+        padding: 40px 0 20px; 
+        border-top: 1px solid rgba(197, 163, 88, 0.05); 
+        background: #050508;
+        text-align: center; 
+    }
+
+    /* Brand yang tipis dan lebar */
+    .footer-brand { 
+        font-size: 1.1rem; 
+        letter-spacing: 15px; 
+        text-transform: uppercase; 
+        color: var(--gold-accent); 
+        margin-bottom: 15px; 
+        font-weight: 700;
+        opacity: 0.8;
+    }
+
+    /* Navigasi horizontal yang rapat */
+    .footer-nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-bottom: 15px;
+    }
+
+    .footer-nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 8px; /* Lebih kecil agar ramping */
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        opacity: 0.4;
+        transition: 0.3s;
+    }
+
+    .footer-nav-links a:hover {
+        opacity: 1;
+        color: var(--gold-accent);
+    }
+    
+        /* Style untuk Link Navigasi */
+    .nav-link-custom {
+        color: #fff;
+        text-decoration: none;
+        font-size: 11px;
+        letter-spacing: 2px;
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+
+    /* CSS Icon Hamburger Emas yang Lebih Jelas */
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(197, 163, 88, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+    }
+    
+    /* Hilangkan outline biru saat tombol di klik di HP */
+    .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .nav-link-custom:hover {
+        opacity: 1;
+        color: var(--gold-accent);
+    }
+
+    /* Style khusus Hamburger Icon agar warna Emas */
+    .navbar-toggler {
+        filter: invert(70%) sepia(20%) saturate(1000%) hue-rotate(10deg);
+    }
+
+    /* Memperbaiki tampilan menu saat terbuka di Mobile */
+    @media (max-width: 991px) {
+        .navbar-collapse {
+            background: rgba(11, 11, 16, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 10px;
+            border: 1px solid rgba(197, 163, 88, 0.1);
+        }
+        .nav-link-custom {
+            display: block;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+    }
+
+.map-frame {
+    border: 1px solid rgba(197, 163, 88, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+}
+
+.map-frame iframe {
+    border-radius: 15px;
+    filter: grayscale(100%) invert(90%) contrast(90%); /* Tema gelap untuk Maps */
+    transition: 0.5s;
+}
+
+.map-frame:hover iframe {
+    filter: grayscale(0%) invert(0%); /* Kembali berwarna saat dihover */
+}
+
+    /* Icon bulat versi mini */
+    .social-circle {
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(197, 163, 88, 0.15);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        margin: 0 5px;
+        transition: 0.3s;
+        text-decoration: none;
+        font-size: 11px;
+    }
+
+    .social-circle:hover {
+        background: var(--gold-accent);
+        color: #000 !important;
+        transform: translateY(-2px);
+    }
+
+    /* Copyright sangat kecil di bawah */
+    .copyright-minimal {
+        font-size: 7px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        opacity: 0.2;
+        margin-top: 20px;
+        line-height: 1.5;
+    }
+    
+
+
+
 </style>
 </head>
 
 <body>
+<div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <i class="fas fa-chevron-up"></i>
+</div>
 
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#">NOCTURNALSTORY</a>
-        <div class="ms-auto d-flex gap-3 gap-md-4">
-            <a href="#about" class="text-white text-decoration-none small d-none d-md-block opacity-50">ABOUT</a>
-            <a href="#nature" class="text-white text-decoration-none small d-none d-md-block opacity-50">NATURE</a>
-            <a href="#wedding" class="text-white text-decoration-none small d-none d-md-block opacity-50">WEDDING</a>
-            <a href="#modeling" class="text-white text-decoration-none small d-none d-md-block opacity-50">MODELING</a>
-            <a href="#pricing" class="text-white text-decoration-none small d-none d-md-block opacity-50">PRICING</a>
+        
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <div class="navbar-nav ms-auto gap-2 gap-lg-4 pt-3 pt-lg-0">
+                <a href="#about" class="nav-link-custom">ABOUT</a>
+                <a href="#nature" class="nav-link-custom">NATURE</a>
+                <a href="#wedding" class="nav-link-custom">WEDDING</a>
+                <a href="#modeling" class="nav-link-custom">MODELING</a>
+                <a href="#pricing" class="nav-link-custom">PRICING</a>
+                <a href="#contact" class="nav-link-custom">LOCATION</a>
+            </div>
         </div>
     </div>
 </nav>
@@ -389,7 +682,8 @@
             </div>
         </div>
 
-    </div> </section>
+    </div> 
+</section>
 
 <section class="container py-5" id="pricing">
     <div class="row mb-5 text-center" data-aos="fade-up">
@@ -401,25 +695,70 @@
     </div>
 </section>
 
+<section class="container py-5" id="contact">
+    <div class="row g-5 align-items-center">
+        <div class="col-md-5" data-aos="fade-right">
+            <h2 style="color: var(--gold-accent); margin-bottom: 20px;">Visit Our Studio</h2>
+            <p class="opacity-75">Silakan datang untuk konsultasi project atau sekadar melihat galeri fisik kami secara langsung.</p>
+            
+            <div class="mt-4">
+                <div class="d-flex align-items-start mb-3">
+                    <i class="fas fa-map-marker-alt mt-1 me-3" style="color: var(--gold-accent)"></i>
+                    <div>
+                        <h6 class="mb-0">Alamat Studio</h6>
+                        <p class="small opacity-50">Jl. Ahmad Yani No. 184, Balong Barat, Beran, Kec. Ngawi, Kabupaten Ngawi, Jawa Timur 63216</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                    <i class="fas fa-phone mt-1 me-3" style="color: var(--gold-accent)"></i>
+                    <div>
+                        <h6 class="mb-0">WhatsApp</h6>
+                        <p class="small opacity-50">+62 813-3449-5602</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7" data-aos="fade-left">
+            <div class="map-frame">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3956.836!2d111.440534!3d-7.413535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e79e799b5e2bd13%3A0x56999a9e969c501c!2sPotrait%20Room%20Ngawi!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+                    width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 </section>
 
 <footer>
     <div class="container">
-        <h2 class="brand-name mb-4" style="color: var(--gold-accent);">NOCTURNALSTORY.</h2>
-        <div class="d-flex justify-content-center gap-4 mb-4">
-            <a href="https://instagram.com/usernamekamu" class="text-white opacity-50 social-link"><i class="fab fa-instagram fa-lg"></i></a>
-            <a href="https://wa.me/nomorkamu" class="text-white opacity-50 social-link"><i class="fab fa-whatsapp fa-lg"></i></a>
+        <div class="footer-brand">NOCTURNALSTORY</div>
+        
+        <div class="footer-nav-links">
+            <a href="#about">The Artist</a>
+            <a href="#portfolio">Archives</a>
+            <a href="#pricing">Services</a>
         </div>
-        <p class="small opacity-25">© 2026 NocturnalStory. All rights reserved.</p>
-        <p class="small opacity-25"> Created By Me. </p>
+
+        <div class="d-flex justify-content-center">
+            <a href="https://instagram.com/nocturnalstory" class="social-circle"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/6285725493220" class="social-circle"><i class="fab fa-whatsapp"></i></a>
+        </div>
+
+        <p class="copyright-minimal">© 2026 NocturnalStory. All Rights Reserved. <br> Directed by Me.</p>
     </div>
 </footer>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     // 1. Inisialisasi AOS (Animasi)
@@ -516,11 +855,36 @@
         }
     }
 
+
+
     loadPricingFromSheet();
 
     function scrollToGallery() {
         document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
     }
+    
+        window.addEventListener('scroll', function() {
+        const backToTop = document.querySelector('#backToTop');
+        if (window.scrollY > 500) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+
+// Script untuk menutup menu hamburger secara otomatis setelah klik
+document.querySelectorAll('.nav-link-custom').forEach(link => {
+    link.addEventListener('click', () => {
+        const navbarCollapse = document.getElementById('mainNav');
+        // Hanya jalankan fungsi tutup jika menu sedang dalam keadaan terbuka (untuk mobile)
+        if (navbarCollapse.classList.contains('show')) {
+            const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+            bsCollapse.hide();
+        }
+    });
+});
+
+
 </script>
 
 <div id="cursor"></div>
