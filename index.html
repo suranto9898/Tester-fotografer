@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NocturnalStory | Cinematic Photography Portfolio</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- FONTS: Cormorant Garamond (display) + Syne (body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -13,747 +14,1014 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <style>
+    /* =============================================
+       VARIABLES & RESET
+    ============================================= */
     :root {
-        --bg-nocturnal: #0b0b10;
-        --gold-accent: #c5a358;
-        --text-light: #ffffff;
-        --text-muted: #888888;
+        --bg-deep:       #070709;
+        --bg-card:       rgba(255,255,255,0.025);
+        --gold:          #c5a358;
+        --gold-light:    #e2c87a;
+        --gold-dim:      rgba(197,163,88,0.15);
+        --text:          #f0ede8;
+        --muted:         rgba(240,237,232,0.45);
+        --border:        rgba(197,163,88,0.12);
+        --border-hover:  rgba(197,163,88,0.6);
+        --radius:        16px;
+        --radius-lg:     28px;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(rgba(11, 11, 16, 0.9), rgba(11, 11, 16, 0.9)), url('background.jpg'); 
-        background-size: cover; background-position: center; background-attachment: fixed;
-        background-color: var(--bg-nocturnal); color: var(--text-light);
-        scroll-behavior: smooth; overflow-x: hidden;
+        font-family: 'Syne', sans-serif;
+        background-color: var(--bg-deep);
+        background-image:
+            radial-gradient(ellipse 80% 50% at 50% -10%, rgba(197,163,88,0.06) 0%, transparent 70%),
+            url('background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: var(--text);
+        overflow-x: hidden;
     }
 
-    h1, h2, h3, .brand-name { font-family: 'Playfair Display', serif; }
-
-    /* NAVBAR GLASSMORPHISM */
-    .navbar { 
-        padding: 1rem 0; 
-        background: rgba(11, 11, 16, 0.8) !important; 
-        backdrop-filter: blur(15px); /* Efek blur kaca */
-        -webkit-backdrop-filter: blur(15px);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 1px solid rgba(197, 163, 88, 0.1);
-        transition: all 0.3s ease;
+    /* Grain overlay for cinematic texture */
+    body::before {
+        content: '';
+        position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9990;
+        opacity: 0.5;
     }
 
-    /* MEMUNCULKAN KEMBALI BRAND NAME */
+    h1, h2, h3, .brand-name {
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    section { position: relative; }
+
+    /* =============================================
+       NAVBAR
+    ============================================= */
+    .navbar {
+        padding: 1.1rem 0;
+        background: rgba(7,7,9,0.75) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        position: sticky; top: 0; z-index: 1000;
+        border-bottom: 1px solid var(--border);
+        transition: padding 0.4s ease, background 0.4s ease;
+    }
+
     .navbar-brand {
-        font-size: 1.5rem; 
-        font-weight: 700; 
-        letter-spacing: 4px;
-        color: var(--gold-accent) !important; /* Paksa warna emas */
-        position: relative;
-        z-index: 1100; /* Pastikan di atas layer glass */
-        text-shadow: 0 0 10px rgba(197, 163, 88, 0.3); /* Glow halus */
+        font-family: 'Syne', sans-serif;
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--gold) !important;
+        text-shadow: 0 0 25px rgba(197,163,88,0.25);
         transition: 0.3s;
     }
 
     .navbar-brand:hover {
-        color: #fff !important; /* Berubah putih saat disentuh */
-        text-shadow: 0 0 15px var(--gold-accent);
+        color: #fff !important;
+        text-shadow: 0 0 20px var(--gold);
     }
 
-    @keyframes goldGlow {
-        0%, 100% { text-shadow: 0 0 5px rgba(197, 163, 88, 0.2); }
-        50% { text-shadow: 0 0 15px rgba(197, 163, 88, 0.6); }
-    }
-
-        /* HERO PARALLAX ENHANCED */
-    .hero { 
-        padding: 150px 0; 
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 80vh; /* Membuat area hero lebih lega */
-    }
-
-    /* Efek Gradasi Teks agar lebih premium */
-    .hero h1 { 
-        font-size: clamp(2.5rem, 8vw, 5.5rem); 
-        margin-bottom: 20px; 
-        font-style: italic;
-        background: linear-gradient(to bottom, #ffffff 30%, var(--gold-accent) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        line-height: 1.1;
-    }
-
-
-    /* Garis dekoratif di bawah judul */
-    .divider-gold {
-        width: 60px;
-        height: 2px;
-        background: var(--gold-accent);
-        margin-top: 15px;
-        box-shadow: 0 0 10px var(--gold-accent);
-    }
-
-    .gold-glow {
-        color: var(--gold-accent);
-        letter-spacing: 2px;
-        text-transform: uppercase;
-    }
-
-    /* Opsional: Memperkecil margin antar frame di dalam box agar lebih rapat */
-    .portfolio-collection-wrapper .category-frame {
-        background: rgba(0, 0, 0, 0.2);
-        margin-bottom: 40px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-
-    /* ABOUT ME & FEATURES */
-    .about-section { padding: 100px 0; background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(5px); }
-    .about-image {
-        width: 100%; height: 600px; object-fit: cover; border-radius: 12px;
-        border: 1px solid rgba(197, 163, 88, 0.2); filter: grayscale(100%); transition: 0.5s;
-    }
-    .about-image:hover { filter: grayscale(0%); border-color: var(--gold-accent); }
-    .about-text h2 { font-size: 3rem; color: var(--gold-accent); margin-bottom: 25px; }
-    
-    .feature-box {
-        background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(197, 163, 88, 0.1);
-        padding: 25px; border-radius: 12px; transition: 0.4s; height: 100%; backdrop-filter: blur(10px);
-    }
-    .feature-box:hover { border-color: var(--gold-accent); transform: translateY(-5px); background: rgba(197, 163, 88, 0.05); }
-    .feature-icon { font-size: 1.8rem; color: var(--gold-accent); margin-bottom: 15px; }
-    .feature-box h5 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
-    .feature-box p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
-
-    /* PORTFOLIO GRID */
-    .category-frame {
-        background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px);
-        border: 1px solid rgba(197, 163, 88, 0.1); padding: 30px;
-        margin-bottom: 50px; border-radius: 15px;
-    }
-    .category-title {
-        color: var(--gold-accent); border-left: 3px solid var(--gold-accent);
-        padding-left: 15px; margin-bottom: 30px; letter-spacing: 3px; text-transform: uppercase;
-    }
-
-    .swiper { width: 100%; height: 420px; border-radius: 10px; }
-    .gallery-item { position: relative; overflow: hidden; height: 420px; border-radius: 8px; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 1s; }
-    .gallery-item:hover img { transform: scale(1.1); filter: grayscale(0%); }
-    .gallery-info { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); opacity: 0; transition: 0.3s; }
-    .gallery-item:hover .gallery-info { opacity: 1; }
-
-    .price-original {
-        text-decoration: line-through;
-        color: var(--text-muted);
-        font-size: 1rem;
-        display: block;
-        margin-bottom: -5px;
-        opacity: 0.6;
-    }
-    .price-promo {
-        color: var(--gold-accent);
-        font-weight: 700;
-    }
-
-    /* GALERI DENGAN EFEK REVEAL */
-    .gallery-item { 
-        position: relative; 
-        overflow: hidden; 
-        height: 420px; 
-        border-radius: 12px; /* Lebih bulat sedikit agar modern */
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        background: #000;
-    }
-
-    .gallery-item img { 
-        width: 100%; 
-        height: 100%; 
-        object-fit: cover; 
-        filter: grayscale(100%) brightness(0.7); /* Lebih gelap & hitam putih di awal */
-        transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1); 
-    }
-
-    .gallery-item:hover img { 
-        transform: scale(1.1); 
-        filter: grayscale(0%) brightness(1); /* Berubah warna & terang saat hover */
-    }
-
-    /* Info di dalam foto yang lebih cinematic */
-    .gallery-info { 
-        position: absolute; 
-        bottom: 0; 
-        left: 0;
-        width: 100%; 
-        padding: 30px 20px; 
-        background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
-        opacity: 0; 
-        transform: translateY(20px); /* Muncul dari bawah */
-        transition: all 0.5s ease;
-        z-index: 2;
-    }
-
-    .gallery-item:hover .gallery-info { 
-        opacity: 1; 
-        transform: translateY(0); 
-    }
-
-    .gallery-info h6 {
-        color: var(--gold-accent);
+    .nav-link-custom {
+        font-family: 'Syne', sans-serif;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 10px;
+        font-weight: 600;
         letter-spacing: 3px;
         text-transform: uppercase;
-        font-size: 0.75rem;
-        margin: 0;
-    }
-
-
-    /* Box Pembungkus Utama */
-    .portfolio-collection-wrapper {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(197, 163, 88, 0.1);
-        border-radius: 40px;
-        padding: 80px 40px;
-        margin-bottom: 100px;
-        backdrop-filter: blur(10px);
-        box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
-    }
-    
-    .collection-header {
-        margin-bottom: 60px;
-        text-align: center;
-    }
-
-    .divider-gold {
-        width: 80px;
-        height: 2px;
-        background: var(--gold-accent);
-        margin: 20px auto;
-        box-shadow: 0 0 15px var(--gold-accent);
-    }
-
-    /* BACK TO TOP BUTTON */
-    #backToTop {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        background: rgba(197, 163, 88, 0.1);
-        border: 1px solid var(--gold-accent);
-        color: var(--gold-accent);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 2000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s ease;
-        backdrop-filter: blur(5px);
-    }
-
-    #backToTop.show {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    #backToTop:hover {
-        background: var(--gold-accent);
-        color: #000;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(197, 163, 88, 0.3);
-    }
-
-
-    .price-card { position: relative; overflow: hidden; }
-    .promo-badge {
-        position: absolute; top: 15px; right: -30px;
-        background: #ff4757; color: white; padding: 5px 35px;
-        font-size: 10px; font-weight: 700; transform: rotate(45deg);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .price-original {
-        text-decoration: line-through;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        display: block;
-        opacity: 0.5;
-    }
-    .price-promo { color: var(--gold-accent); font-weight: 700; }
-
-    /* BUTTONS ENHANCED */
-    .btn-gold-custom {
-        background: var(--gold-accent); 
-        color: #000; 
-        border-radius: 4px;
-        padding: 15px 40px; 
-        text-transform: uppercase; 
-        letter-spacing: 2px;
-        font-size: 11px; 
-        font-weight: 700; 
-        border: none; 
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        display: inline-block;
-        box-shadow: 0 0 0 rgba(197, 163, 88, 0);
-    }
-
-    .btn-gold-custom:hover { 
-        background: #fff; 
-        color: #000; 
-        transform: translateY(-5px) scale(1.03); 
-        box-shadow: 0 15px 30px rgba(197, 163, 88, 0.4), 0 0 20px rgba(197, 163, 88, 0.2); 
-    }
-
-    .btn-gold-custom:active {
-        transform: translateY(-2px);
-    }
-
-    
-    /* Cursor Custom */
-    #cursor {
-        width: 20px; height: 20px;
-        background: var(--gold-accent);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        mix-blend-mode: difference;
-        transition: transform 0.1s ease;
-    }
-
-
-        /* PRICING CARD PREMIUM */
-    .price-card {
-        background: rgba(255, 255, 255, 0.03); 
-        border: 1px solid rgba(197, 163, 88, 0.2);
-        padding: 40px; 
-        border-radius: 20px; 
-        transition: all 0.4s ease; 
-        text-align: center;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        opacity: 0.45;
+        transition: opacity 0.3s, color 0.3s;
         position: relative;
-        overflow: hidden;
     }
 
-    .price-card:hover { 
-        border-color: var(--gold-accent); 
-        transform: translateY(-15px); 
-        background: rgba(197, 163, 88, 0.05);
-        box-shadow: 0 30px 60px rgba(197, 163, 88, 0.15);
+    .nav-link-custom::after {
+        content: '';
+        position: absolute;
+        bottom: -4px; left: 0;
+        width: 0; height: 1px;
+        background: var(--gold);
+        transition: width 0.35s ease;
     }
 
-    /* CSS untuk Link Navigasi */
-    .nav-link-custom {
-        color: #fff;
-        text-decoration: none;
-        font-size: 11px;
-        letter-spacing: 2px;
-        opacity: 0.5;
-        transition: 0.3s;
-        text-align: center;
-    }
+    .nav-link-custom:hover { opacity: 1; color: var(--gold); }
+    .nav-link-custom:hover::after { width: 100%; }
 
-    .nav-link-custom:hover {
-        opacity: 1;
-        color: var(--gold-accent);
-    }
-
-    /* Mengubah warna icon hamburger menjadi Emas */
+    /* Hamburger icon — gold colored */
     .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3 listings%3E%3Cpath stroke='rgba(197, 163, 88, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(197,163,88,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
     }
 
-    /* Tampilan Menu saat Terbuka di Mobile */
+    .navbar-toggler { border: none !important; box-shadow: none !important; outline: none !important; }
+    .navbar-toggler:focus { box-shadow: none; }
+
     @media (max-width: 991px) {
         .navbar-collapse {
-            background: rgba(11, 11, 16, 0.98);
+            background: rgba(7,7,9,0.97);
             margin-top: 15px;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(197, 163, 88, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
         }
         .nav-link-custom {
             display: block;
             padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
-        .nav-link-custom:last-child {
-            border-bottom: none;
-        }
+        .nav-link-custom:last-child { border-bottom: none; }
     }
 
-
-            /* FOOTER COMPACT - STRUKTUR SESUAI USER */
-    footer { 
-        padding: 40px 0 20px; 
-        border-top: 1px solid rgba(197, 163, 88, 0.05); 
-        background: #050508;
-        text-align: center; 
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+        min-height: 90vh;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        text-align: center;
+        padding: 120px 20px 80px;
+        position: relative; overflow: hidden;
     }
 
-    /* Brand yang tipis dan lebar */
-    .footer-brand { 
-        font-size: 1.1rem; 
-        letter-spacing: 15px; 
-        text-transform: uppercase; 
-        color: var(--gold-accent); 
-        margin-bottom: 15px; 
+    /* Cinematic vignette */
+    .hero::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, rgba(7,7,9,0.85) 100%);
+        pointer-events: none;
+    }
+
+    #hero-parallax { position: relative; z-index: 1; }
+
+    .hero h1 {
+        font-size: clamp(3rem, 9vw, 6.5rem);
+        font-weight: 600;
+        font-style: italic;
+        line-height: 1.05;
+        letter-spacing: -1px;
+        margin-bottom: 28px;
+        background: linear-gradient(160deg, #ffffff 20%, var(--gold-light) 60%, var(--gold) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero p.subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 44px;
+    }
+
+    /* =============================================
+       JOB BADGE
+    ============================================= */
+    .job-badge {
+        display: inline-block;
+        font-family: 'Syne', sans-serif;
+        font-size: 9px;
         font-weight: 700;
-        opacity: 0.8;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--gold);
+        border: 1px solid var(--border-hover);
+        background: rgba(197,163,88,0.06);
+        padding: 7px 18px;
+        border-radius: 100px;
+        margin-bottom: 22px;
     }
 
-    /* Navigasi horizontal yang rapat */
+    /* =============================================
+       DIVIDER
+    ============================================= */
+    .divider-gold {
+        width: 60px; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        margin: 20px auto;
+        box-shadow: 0 0 12px var(--gold);
+    }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
+    .btn-gold-custom {
+        display: inline-block;
+        background: var(--gold);
+        color: #000;
+        border: none;
+        border-radius: 3px;
+        padding: 15px 44px;
+        font-family: 'Syne', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 0 0 rgba(197,163,88,0);
+        position: relative; overflow: hidden;
+    }
+
+    .btn-gold-custom::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+        opacity: 0; transition: opacity 0.3s;
+    }
+
+    .btn-gold-custom:hover {
+        background: #e2c87a;
+        color: #000;
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 18px 40px rgba(197,163,88,0.35), 0 0 30px rgba(197,163,88,0.15);
+    }
+
+    .btn-gold-custom:hover::before { opacity: 1; }
+    .btn-gold-custom:active { transform: translateY(-2px); }
+
+    /* =============================================
+       ABOUT SECTION
+    ============================================= */
+    .about-section {
+        padding: 120px 0;
+        position: relative;
+    }
+
+    .about-section::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, transparent, rgba(197,163,88,0.02) 50%, transparent);
+        pointer-events: none;
+    }
+
+    .about-image {
+        width: 100%;
+        height: 580px;
+        object-fit: cover;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        filter: grayscale(100%) brightness(0.85);
+        transition: all 0.7s ease;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    }
+
+    .about-image:hover {
+        filter: grayscale(0%) brightness(1);
+        border-color: var(--border-hover);
+        box-shadow: 0 40px 80px rgba(197,163,88,0.1);
+    }
+
+    .about-text h2 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 600;
+        color: var(--gold-light);
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+
+    .about-text p {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 14px;
+    }
+
+    /* =============================================
+       FEATURE BOXES
+    ============================================= */
+    .feature-box {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        padding: 24px 20px;
+        border-radius: var(--radius);
+        transition: all 0.4s ease;
+        height: 100%;
+        backdrop-filter: blur(12px);
+        position: relative; overflow: hidden;
+    }
+
+    .feature-box::before {
+        content: '';
+        position: absolute; top: 0; left: 0;
+        width: 3px; height: 100%;
+        background: var(--gold);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.4s ease;
+    }
+
+    .feature-box:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-6px);
+        background: rgba(197,163,88,0.04);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .feature-box:hover::before { transform: scaleY(1); }
+
+    .feature-icon {
+        font-size: 1.6rem;
+        color: var(--gold);
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .feature-box h5 {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: var(--text);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .feature-box p {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* =============================================
+       PORTFOLIO / GALLERY
+    ============================================= */
+    .portfolio-collection-wrapper {
+        background: rgba(255,255,255,0.015);
+        border: 1px solid var(--border);
+        border-radius: 40px;
+        padding: 70px 44px;
+        margin-bottom: 100px;
+        backdrop-filter: blur(12px);
+        box-shadow: inset 0 0 120px rgba(0,0,0,0.4), 0 40px 80px rgba(0,0,0,0.3);
+    }
+
+    .category-frame {
+        background: rgba(0,0,0,0.2);
+        border: 1px solid var(--border);
+        padding: 36px 28px;
+        margin-bottom: 48px;
+        border-radius: 20px;
+        transition: border-color 0.4s ease;
+    }
+
+    .category-frame:last-child { margin-bottom: 0; }
+    .category-frame:hover { border-color: rgba(197,163,88,0.25); }
+
+    .category-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 5px;
+        color: var(--gold);
+        border-left: 2px solid var(--gold);
+        padding-left: 16px;
+        margin-bottom: 28px;
+        text-transform: uppercase;
+        box-shadow: -6px 0 20px rgba(197,163,88,0.15);
+    }
+
+    .swiper { width: 100%; height: 420px; border-radius: 12px; }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        height: 420px;
+        border-radius: 12px;
+        background: #000;
+        border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .gallery-item img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) brightness(0.7);
+        transition: all 0.9s cubic-bezier(0.2, 1, 0.3, 1);
+        display: block;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.08);
+        filter: grayscale(0%) brightness(1);
+    }
+
+    .gallery-info {
+        position: absolute; bottom: 0; left: 0;
+        width: 100%;
+        padding: 32px 20px 20px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.92));
+        opacity: 0;
+        transform: translateY(12px);
+        transition: all 0.45s ease;
+        z-index: 2;
+    }
+
+    .gallery-item:hover .gallery-info { opacity: 1; transform: translateY(0); }
+
+    .gallery-info h6 {
+        font-family: 'Syne', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        color: var(--gold);
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    /* =============================================
+       PRICING CARDS
+    ============================================= */
+    .price-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        padding: 44px 36px;
+        border-radius: var(--radius-lg);
+        transition: all 0.5s ease;
+        text-align: center;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .price-card::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .price-card:hover {
+        border-color: var(--border-hover);
+        transform: translateY(-16px);
+        background: rgba(197,163,88,0.04);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.4), 0 0 60px rgba(197,163,88,0.08);
+    }
+
+    .price-card:hover::before { opacity: 1; }
+
+    .price-card .package-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 12px;
+    }
+
+    .price-original {
+        text-decoration: line-through;
+        color: var(--muted);
+        font-size: 0.9rem;
+        display: block;
+        opacity: 0.5;
+        margin-bottom: -4px;
+    }
+
+    .price-promo {
+        color: var(--gold);
+        font-weight: 700;
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    .price-card h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+    }
+
+    .price-card ul li {
+        font-size: 0.83rem;
+        color: var(--muted);
+        padding: 4px 0;
+    }
+
+    .promo-badge {
+        position: absolute; top: 18px; right: -28px;
+        background: linear-gradient(135deg, #ff4757, #ff2f43);
+        color: white; padding: 6px 38px;
+        font-family: 'Syne', sans-serif;
+        font-size: 9px; font-weight: 700;
+        letter-spacing: 1px;
+        transform: rotate(45deg);
+        box-shadow: 0 4px 15px rgba(255,71,87,0.3);
+    }
+
+    /* =============================================
+       CONTACT SECTION
+    ============================================= */
+    .contact-info-box {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 40px 36px;
+        backdrop-filter: blur(12px);
+        height: 100%;
+    }
+
+    .contact-info-box h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--gold-light);
+        margin-bottom: 12px;
+    }
+
+    .contact-info-box p.desc {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.7;
+        margin-bottom: 32px;
+    }
+
+    .contact-item {
+        display: flex; align-items: flex-start;
+        gap: 16px; margin-bottom: 24px;
+    }
+
+    .contact-icon {
+        width: 38px; height: 38px;
+        background: var(--gold-dim);
+        border: 1px solid var(--border-hover);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--gold); font-size: 0.9rem;
+        flex-shrink: 0; margin-top: 2px;
+    }
+
+    .contact-item h6 {
+        font-size: 10px; font-weight: 700;
+        letter-spacing: 2px; text-transform: uppercase;
+        color: var(--gold); margin-bottom: 4px;
+    }
+
+    .contact-item p {
+        font-size: 0.85rem; color: var(--muted); margin: 0;
+    }
+
+    .map-frame {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: rgba(0,0,0,0.3);
+        padding: 8px;
+        height: 100%;
+        min-height: 380px;
+        transition: border-color 0.4s;
+    }
+
+    .map-frame:hover { border-color: var(--border-hover); }
+
+    .map-frame iframe {
+        border-radius: 20px;
+        filter: grayscale(100%) invert(88%) contrast(88%);
+        transition: filter 0.5s ease;
+        width: 100%; height: 100%; min-height: 360px; border: 0;
+        display: block;
+    }
+
+    .map-frame:hover iframe { filter: grayscale(0%) invert(0%); }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+        padding: 60px 0 30px;
+        border-top: 1px solid var(--border);
+        background: #050507;
+        text-align: center;
+    }
+
+    .footer-brand {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.95rem;
+        letter-spacing: 12px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 20px;
+        font-weight: 800;
+        opacity: 0.75;
+    }
+
     .footer-nav-links {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        margin-bottom: 15px;
+        display: flex; justify-content: center;
+        gap: 28px; margin-bottom: 24px;
+        flex-wrap: wrap;
     }
 
     .footer-nav-links a {
-        color: #fff;
+        color: var(--text);
         text-decoration: none;
-        font-size: 8px; /* Lebih kecil agar ramping */
+        font-size: 9px;
+        font-weight: 600;
         letter-spacing: 2px;
         text-transform: uppercase;
-        opacity: 0.4;
-        transition: 0.3s;
+        opacity: 0.35;
+        transition: opacity 0.3s, color 0.3s;
     }
 
-    .footer-nav-links a:hover {
-        opacity: 1;
-        color: var(--gold-accent);
-    }
-    
-        /* Style untuk Link Navigasi */
-    .nav-link-custom {
-        color: #fff;
-        text-decoration: none;
-        font-size: 11px;
-        letter-spacing: 2px;
-        opacity: 0.5;
-        transition: 0.3s;
-    }
+    .footer-nav-links a:hover { opacity: 1; color: var(--gold); }
 
-    /* CSS Icon Hamburger Emas yang Lebih Jelas */
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(197, 163, 88, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
-    }
-    
-    /* Hilangkan outline biru saat tombol di klik di HP */
-    .navbar-toggler:focus {
-        box-shadow: none;
-        outline: none;
-    }
-
-    .nav-link-custom:hover {
-        opacity: 1;
-        color: var(--gold-accent);
-    }
-
-    /* Style khusus Hamburger Icon agar warna Emas */
-    .navbar-toggler {
-        filter: invert(70%) sepia(20%) saturate(1000%) hue-rotate(10deg);
-    }
-
-    /* Memperbaiki tampilan menu saat terbuka di Mobile */
-    @media (max-width: 991px) {
-        .navbar-collapse {
-            background: rgba(11, 11, 16, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 10px;
-            border: 1px solid rgba(197, 163, 88, 0.1);
-        }
-        .nav-link-custom {
-            display: block;
-            padding: 10px 0;
-            font-size: 13px;
-        }
-    }
-
-.map-frame {
-    border: 1px solid rgba(197, 163, 88, 0.2);
-    border-radius: 20px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 10px;
-}
-
-.map-frame iframe {
-    border-radius: 15px;
-    filter: grayscale(100%) invert(90%) contrast(90%); /* Tema gelap untuk Maps */
-    transition: 0.5s;
-}
-
-.map-frame:hover iframe {
-    filter: grayscale(0%) invert(0%); /* Kembali berwarna saat dihover */
-}
-
-    /* Icon bulat versi mini */
     .social-circle {
-        width: 30px;
-        height: 30px;
-        border: 1px solid rgba(197, 163, 88, 0.15);
+        width: 36px; height: 36px;
+        border: 1px solid var(--border);
         border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        margin: 0 5px;
-        transition: 0.3s;
-        text-decoration: none;
-        font-size: 11px;
+        display: inline-flex; align-items: center; justify-content: center;
+        color: var(--text); margin: 0 6px;
+        transition: all 0.3s ease;
+        text-decoration: none; font-size: 12px;
     }
 
     .social-circle:hover {
-        background: var(--gold-accent);
-        color: #000 !important;
-        transform: translateY(-2px);
+        background: var(--gold); color: #000;
+        border-color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(197,163,88,0.3);
     }
 
-    /* Copyright sangat kecil di bawah */
     .copyright-minimal {
-        font-size: 7px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        opacity: 0.2;
-        margin-top: 20px;
-        line-height: 1.5;
+        font-size: 9px; letter-spacing: 2px;
+        text-transform: uppercase; opacity: 0.2;
+        margin-top: 24px; line-height: 1.8;
+        color: var(--text);
     }
-    
 
+    /* =============================================
+       GOLD GLOW TEXT UTILITY
+    ============================================= */
+    .gold-glow {
+        color: var(--gold);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
 
+    /* =============================================
+       BACK TO TOP
+    ============================================= */
+    #backToTop {
+        position: fixed; bottom: 32px; right: 32px;
+        width: 48px; height: 48px;
+        background: rgba(197,163,88,0.08);
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; z-index: 2000;
+        opacity: 0; visibility: hidden;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(8px);
+        font-size: 0.85rem;
+    }
 
+    #backToTop.show { opacity: 1; visibility: visible; }
+    #backToTop:hover {
+        background: var(--gold); color: #000;
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(197,163,88,0.35);
+    }
+
+    /* =============================================
+       CUSTOM CURSOR
+    ============================================= */
+    #cursor {
+        width: 18px; height: 18px;
+        background: var(--gold);
+        border-radius: 50%;
+        position: fixed; pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transform: translate(-50%, -50%);
+        transition: transform 0.08s ease;
+    }
+
+    /* =============================================
+       SECTION HEADING STYLE
+    ============================================= */
+    .section-heading { text-align: center; margin-bottom: 64px; }
+    .section-heading h2 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 600;
+        color: var(--text);
+    }
+    .section-heading p { color: var(--muted); font-size: 0.9rem; margin-top: 10px; }
+
+    /* =============================================
+       LOADING STATE
+    ============================================= */
+    .loading-pricing {
+        display: flex; align-items: center; justify-content: center;
+        gap: 12px; padding: 60px 0; opacity: 0.4;
+        font-size: 0.85rem; letter-spacing: 2px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-pricing i { animation: spin 1.2s linear infinite; }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 768px) {
+        .portfolio-collection-wrapper { padding: 40px 20px; border-radius: 24px; }
+        .about-image { height: 380px; }
+        .price-card { padding: 32px 24px; }
+        .contact-info-box { padding: 28px 22px; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
+    }
 </style>
 </head>
-
 <body>
-<div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+
+<!-- BACK TO TOP -->
+<div id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <i class="fas fa-chevron-up"></i>
 </div>
 
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+
+<!-- =============================================
+     NAVBAR
+============================================= -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="#">NOCTURNALSTORY</a>
-        
-        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+
+        <button class="navbar-toggler border-0 shadow-none" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="mainNav">
-            <div class="navbar-nav ms-auto gap-2 gap-lg-4 pt-3 pt-lg-0">
-                <a href="#about" class="nav-link-custom">ABOUT</a>
-                <a href="#nature" class="nav-link-custom">NATURE</a>
-                <a href="#wedding" class="nav-link-custom">WEDDING</a>
-                <a href="#modeling" class="nav-link-custom">MODELING</a>
-                <a href="#pricing" class="nav-link-custom">PRICING</a>
-                <a href="#contact" class="nav-link-custom">LOCATION</a>
+            <div class="navbar-nav ms-auto gap-2 gap-lg-5 pt-3 pt-lg-0">
+                <a href="#about"    class="nav-link-custom">About</a>
+                <a href="#nature"   class="nav-link-custom">Nature</a>
+                <a href="#wedding"  class="nav-link-custom">Wedding</a>
+                <a href="#modeling" class="nav-link-custom">Modeling</a>
+                <a href="#pricing"  class="nav-link-custom">Pricing</a>
+                <a href="#contact"  class="nav-link-custom">Location</a>
             </div>
         </div>
     </div>
 </nav>
 
-<header class="hero container" id="hero-parallax" data-aos="zoom-in" data-aos-duration="1500">
-    <span class="job-badge">Cinematic Photographer</span>
-    <h1>Capturing stories <br>written in the memories.</h1>
-    <p class="opacity-50 mt-4">Nature • Wedding • Modeling • Commercial Photography</p>
-    <button class="btn btn-gold-custom mt-4" onclick="scrollToGallery()">Explore Gallery</button>
+<!-- =============================================
+     HERO
+============================================= -->
+<header class="hero" id="hero-parallax" data-aos="fade-in" data-aos-duration="1800">
+    <div id="hero-parallax-inner">
+        <span class="job-badge">Cinematic Photographer</span>
+        <h1>Capturing stories<br>written in the memories.</h1>
+        <p class="subtitle">Nature &nbsp;•&nbsp; Wedding &nbsp;•&nbsp; Modeling &nbsp;•&nbsp; Commercial</p>
+        <button class="btn-gold-custom" onclick="scrollToGallery()">Explore Gallery</button>
+    </div>
 </header>
 
-
+<!-- =============================================
+     ABOUT
+============================================= -->
 <section class="about-section" id="about">
     <div class="container">
         <div class="row align-items-center g-5">
-            <div class="col-md-5" data-aos="fade-right">
+
+            <div class="col-md-5" data-aos="fade-right" data-aos-duration="1000">
                 <img src="profile.jpg" alt="Nocturnal" class="about-image">
             </div>
-            <div class="col-md-7 about-text" data-aos="fade-left">
+
+            <div class="col-md-7 about-text" data-aos="fade-left" data-aos-duration="1000">
                 <span class="job-badge">The Man Behind the Lens</span>
                 <h2>Hello, I'm Nocturnal.</h2>
-                <p>Saya Nocturnal, fotografer yang berfokus pada dokumentasi visual dengan pendekatan rapi, konsisten, dan bertanggung jawab.<p>
-                <p>Saya mengutamakan kualitas hasil, ketepatan waktu, serta komunikasi yang jelas dalam setiap proses kerja.<p>
+
+                <p>Saya Nocturnal, fotografer yang berfokus pada dokumentasi visual dengan pendekatan rapi, konsisten, dan bertanggung jawab.</p>
+                <p>Saya mengutamakan kualitas hasil, ketepatan waktu, serta komunikasi yang jelas dalam setiap proses kerja.</p>
                 <p>Dengan pengalaman menangani berbagai kebutuhan dokumentasi, saya berkomitmen memberikan hasil foto yang sesuai brief, representatif, dan siap digunakan untuk kebutuhan personal maupun komersial.</p>
-                
-                <div class="row g-3 mt-2 mb-4">
-                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row g-3 mt-3 mb-4">
+                    <div class="col-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="feature-box">
-                            <i class="fas fa-camera-retro feature-icon"></i>
+                            <span class="feature-icon"><i class="fas fa-camera-retro"></i></span>
                             <h5>Equipment</h5>
                             <p>Gear standar industri untuk hasil cinematic.</p>
                         </div>
                     </div>
-                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="feature-box">
-                            <i class="fas fa-heart feature-icon"></i>
+                            <span class="feature-icon"><i class="fas fa-heart"></i></span>
                             <h5>Passionate</h5>
-                            <p>Setiap frame diambil dengan dedikasi.</p>
+                            <p>Setiap frame diambil dengan dedikasi penuh.</p>
                         </div>
                     </div>
-                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="col-6" data-aos="fade-up" data-aos-delay="300">
                         <div class="feature-box">
-                            <i class="fas fa-users feature-icon"></i>
+                            <span class="feature-icon"><i class="fas fa-users"></i></span>
                             <h5>Focused</h5>
-                            <p>Lebih dari 1.000 pelanggan terabadikan</p>
+                            <p>Lebih dari 1.000 pelanggan terabadikan.</p>
                         </div>
                     </div>
-                    <div class="col-6 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="col-6" data-aos="fade-up" data-aos-delay="400">
                         <div class="feature-box">
-                            <i class="fas fa-award feature-icon"></i>
+                            <span class="feature-icon"><i class="fas fa-award"></i></span>
                             <h5>Awards</h5>
-                            <p>Exsperience Lebih dari 10 Tahun</p>
+                            <p>Pengalaman lebih dari 10 tahun.</p>
                         </div>
                     </div>
-     
-    </div>
+                </div><!-- /row feature boxes -->
+
+            </div><!-- /col about text -->
+        </div><!-- /row -->
+    </div><!-- /container -->
 </section>
 
+<!-- =============================================
+     PORTFOLIO
+============================================= -->
 <section class="container py-5" id="portfolio">
     <div class="portfolio-collection-wrapper" data-aos="fade-up">
-        
+
         <div class="text-center mb-5">
             <span class="job-badge">Visual Archives</span>
             <h2 class="display-6 gold-glow">My Collections</h2>
-            <div class="divider-gold mx-auto"></div>
+            <div class="divider-gold"></div>
         </div>
 
+        <!-- NATURE -->
         <div class="category-frame" id="nature">
-            <h3 class="category-title">NATURE</h3>
+            <h3 class="category-title">Nature</h3>
             <div class="swiper mySwiperNature">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href="nature1.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature1.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="nature2.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature2.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="nature3.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature3.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="nature4.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature4.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="nature5.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature5.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="nature1.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature1.jpg" alt="Nature 1" loading="lazy"><div class="gallery-info"><h6>Nature 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="nature2.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature2.jpg" alt="Nature 2" loading="lazy"><div class="gallery-info"><h6>Nature 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="nature3.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature3.jpg" alt="Nature 3" loading="lazy"><div class="gallery-info"><h6>Nature 03</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="nature4.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature4.jpg" alt="Nature 4" loading="lazy"><div class="gallery-info"><h6>Nature 04</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="nature5.jpg" data-lightbox="nature"><div class="gallery-item"><img src="nature5.jpg" alt="Nature 5" loading="lazy"><div class="gallery-info"><h6>Nature 05</h6></div></div></a></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
 
+        <!-- WEDDING -->
         <div class="category-frame" id="wedding">
-            <h3 class="category-title">WEDDING</h3>
+            <h3 class="category-title">Wedding</h3>
             <div class="swiper mySwiperWedding">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href="wedding1.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding1.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="wedding2.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding2.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="wedding3.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding3.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="wedding4.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding4.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="wedding5.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding5.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="wedding1.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding1.jpg" alt="Wedding 1" loading="lazy"><div class="gallery-info"><h6>Wedding 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="wedding2.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding2.jpg" alt="Wedding 2" loading="lazy"><div class="gallery-info"><h6>Wedding 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="wedding3.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding3.jpg" alt="Wedding 3" loading="lazy"><div class="gallery-info"><h6>Wedding 03</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="wedding4.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding4.jpg" alt="Wedding 4" loading="lazy"><div class="gallery-info"><h6>Wedding 04</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="wedding5.jpg" data-lightbox="wedding"><div class="gallery-item"><img src="wedding5.jpg" alt="Wedding 5" loading="lazy"><div class="gallery-info"><h6>Wedding 05</h6></div></div></a></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
 
+        <!-- MODELING -->
         <div class="category-frame" id="modeling">
-            <h3 class="category-title">MODELING</h3>
+            <h3 class="category-title">Modeling</h3>
             <div class="swiper mySwiperModeling">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href="model1.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model1.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="model2.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model2.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="model3.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model3.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="model4.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model4.jpg"></div></a></div>
-                    <div class="swiper-slide"><a href="model5.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model5.jpg"></div></a></div>
+                    <div class="swiper-slide"><a href="model1.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model1.jpg" alt="Model 1" loading="lazy"><div class="gallery-info"><h6>Model 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="model2.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model2.jpg" alt="Model 2" loading="lazy"><div class="gallery-info"><h6>Model 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="model3.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model3.jpg" alt="Model 3" loading="lazy"><div class="gallery-info"><h6>Model 03</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="model4.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model4.jpg" alt="Model 4" loading="lazy"><div class="gallery-info"><h6>Model 04</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="model5.jpg" data-lightbox="modeling"><div class="gallery-item"><img src="model5.jpg" alt="Model 5" loading="lazy"><div class="gallery-info"><h6>Model 05</h6></div></div></a></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
 
+        <!-- OTHERS -->
         <div class="category-frame" id="others">
-            <h3 class="category-title">OTHERS</h3>
+            <h3 class="category-title">Others</h3>
             <div class="swiper mySwiperOthers">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href="other1.jpg" data-lightbox="others"><div class="gallery-item"><img src="other1.jpg" loading="lazy"><div class="gallery-info"><h6>Street 01</h6></div></div></a></div>
-                    <div class="swiper-slide"><a href="other2.jpg" data-lightbox="others"><div class="gallery-item"><img src="other2.jpg" loading="lazy"><div class="gallery-info"><h6>Street 02</h6></div></div></a></div>
-                    <div class="swiper-slide"><a href="other3.jpg" data-lightbox="others"><div class="gallery-item"><img src="other3.jpg" loading="lazy"><div class="gallery-info"><h6>Urban 01</h6></div></div></a></div>
-                    <div class="swiper-slide"><a href="other4.jpg" data-lightbox="others"><div class="gallery-item"><img src="other4.jpg" loading="lazy"><div class="gallery-info"><h6>Urban 02</h6></div></div></a></div>
-                    <div class="swiper-slide"><a href="other5.jpg" data-lightbox="others"><div class="gallery-item"><img src="other5.jpg" loading="lazy"><div class="gallery-info"><h6>Cinematic 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other1.jpg" data-lightbox="others"><div class="gallery-item"><img src="other1.jpg" alt="Other 1" loading="lazy"><div class="gallery-info"><h6>Street 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other2.jpg" data-lightbox="others"><div class="gallery-item"><img src="other2.jpg" alt="Other 2" loading="lazy"><div class="gallery-info"><h6>Street 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other3.jpg" data-lightbox="others"><div class="gallery-item"><img src="other3.jpg" alt="Other 3" loading="lazy"><div class="gallery-info"><h6>Urban 01</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other4.jpg" data-lightbox="others"><div class="gallery-item"><img src="other4.jpg" alt="Other 4" loading="lazy"><div class="gallery-info"><h6>Urban 02</h6></div></div></a></div>
+                    <div class="swiper-slide"><a href="other5.jpg" data-lightbox="others"><div class="gallery-item"><img src="other5.jpg" alt="Other 5" loading="lazy"><div class="gallery-info"><h6>Cinematic 01</h6></div></div></a></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
 
-    </div> 
+    </div><!-- /portfolio-collection-wrapper -->
 </section>
 
+<!-- =============================================
+     PRICING
+============================================= -->
 <section class="container py-5" id="pricing">
-    <div class="row mb-5 text-center" data-aos="fade-up">
-        <h2 class="display-5">Pilihan Paket</h2>
-        <p class="opacity-50">Pilih paket cerita yang ingin kamu abadikan.</p>
+    <div class="section-heading" data-aos="fade-up">
+        <span class="job-badge">Services</span>
+        <h2>Pilihan Paket</h2>
+        <div class="divider-gold"></div>
+        <p>Pilih paket cerita yang ingin kamu abadikan.</p>
     </div>
     <div class="row g-4" id="pricing-container">
-        <div class="text-center opacity-50">Memuat daftar paket...</div>
+        <div class="loading-pricing col-12">
+            <i class="fas fa-circle-notch"></i>
+            <span>Memuat daftar paket...</span>
+        </div>
     </div>
 </section>
 
+<!-- =============================================
+     CONTACT / LOCATION
+============================================= -->
 <section class="container py-5" id="contact">
-    <div class="row g-5 align-items-center">
+    <div class="section-heading" data-aos="fade-up">
+        <span class="job-badge">Visit Us</span>
+        <h2>Find Our Studio</h2>
+        <div class="divider-gold"></div>
+    </div>
+    <div class="row g-4 align-items-stretch">
+
         <div class="col-md-5" data-aos="fade-right">
-            <h2 style="color: var(--gold-accent); margin-bottom: 20px;">Visit Our Studio</h2>
-            <p class="opacity-75">Silakan datang untuk konsultasi project atau sekadar melihat galeri fisik kami secara langsung.</p>
-            
-            <div class="mt-4">
-                <div class="d-flex align-items-start mb-3">
-                    <i class="fas fa-map-marker-alt mt-1 me-3" style="color: var(--gold-accent)"></i>
+            <div class="contact-info-box">
+                <h2>Visit Our Studio</h2>
+                <p class="desc">Silakan datang untuk konsultasi project atau sekadar melihat galeri fisik kami secara langsung.</p>
+
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div>
-                        <h6 class="mb-0">Alamat Studio</h6>
-                        <p class="small opacity-50">Jl. Ahmad Yani No. 184, Balong Barat, Beran, Kec. Ngawi, Kabupaten Ngawi, Jawa Timur 63216</p>
+                        <h6>Alamat Studio</h6>
+                        <p>Jl. Ahmad Yani No. 184, Balong Barat, Beran, Kec. Ngawi, Kabupaten Ngawi, Jawa Timur 63216</p>
                     </div>
                 </div>
-                
-                <div class="d-flex align-items-start mb-3">
-                    <i class="fas fa-phone mt-1 me-3" style="color: var(--gold-accent)"></i>
+
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
                     <div>
-                        <h6 class="mb-0">WhatsApp</h6>
-                        <p class="small opacity-50">+62 813-3449-5602</p>
+                        <h6>WhatsApp</h6>
+                        <p>+62 857-2549-3220</p>
                     </div>
                 </div>
+
+                <a href="https://wa.me/6285340222009" target="_blank" class="btn-gold-custom d-inline-block mt-2">
+                    Chat Sekarang
+                </a>
             </div>
         </div>
 
         <div class="col-md-7" data-aos="fade-left">
             <div class="map-frame">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3956.836!2d111.440534!3d-7.413535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e79e799b5e2bd13%3A0x56999a9e969c501c!2sPotrait%20Room%20Ngawi!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
-                    width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3956.836!2d111.440534!3d-7.413535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e79e799b5e2bd13%3A0x56999a9e969c501c!2sPotrait%20Room%20Ngawi!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                    allowfullscreen="" loading="lazy"
+                    title="Studio Location">
                 </iframe>
             </div>
         </div>
+
     </div>
 </section>
 
-
-</section>
-
+<!-- =============================================
+     FOOTER
+============================================= -->
 <footer>
     <div class="container">
-        <div class="footer-brand">NOCTURNALSTORY</div>
-        
+        <div class="footer-brand">NocturnalStory</div>
+
         <div class="footer-nav-links">
             <a href="#about">The Artist</a>
             <a href="#portfolio">Archives</a>
             <a href="#pricing">Services</a>
+            <a href="#contact">Location</a>
         </div>
 
-        <div class="d-flex justify-content-center">
-            <a href="https://instagram.com/nocturnalstory" class="social-circle"><i class="fab fa-instagram"></i></a>
-            <a href="https://wa.me/6285725493220" class="social-circle"><i class="fab fa-whatsapp"></i></a>
+        <div class="d-flex justify-content-center mb-3">
+            <a href="https://instagram.com/nocturnalstory" class="social-circle" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/6285725493220" class="social-circle" target="_blank" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
         </div>
 
-        <p class="copyright-minimal">© 2026 NocturnalStory. All Rights Reserved. <br> Directed by Me.</p>
+        <p class="copyright-minimal">© 2026 NocturnalStory. All Rights Reserved.<br>Directed by Me.</p>
     </div>
 </footer>
 
-
+<!-- =============================================
+     SCRIPTS
+============================================= -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
@@ -761,151 +1029,127 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // 1. Inisialisasi AOS (Animasi)
-    AOS.init({ duration: 1000, once: true });
+    /* 1 — AOS */
+    AOS.init({ duration: 1000, once: true, offset: 60 });
 
-    // 2. Konfigurasi Swiper (Slider)
+    /* 2 — Swiper config */
     const swiperConfig = {
-        autoplay: { delay: 3000 },
-        pagination: { el: ".swiper-pagination", clickable: true },
-        slidesPerView: 1, 
-        spaceBetween: 20,
-        breakpoints: { 
-            768: { slidesPerView: 2 }, 
-            1024: { slidesPerView: 3 } 
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        slidesPerView: 1,
+        spaceBetween: 16,
+        loop: true,
+        breakpoints: {
+            640:  { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
         }
     };
 
-    // 3. Jalankan Slider
-    new Swiper(".mySwiperNature", swiperConfig);
-    new Swiper(".mySwiperWedding", swiperConfig);
-    new Swiper(".mySwiperModeling", swiperConfig);
-    new Swiper(".mySwiperOthers", swiperConfig);
+    new Swiper('.mySwiperNature',   swiperConfig);
+    new Swiper('.mySwiperWedding',  swiperConfig);
+    new Swiper('.mySwiperModeling', swiperConfig);
+    new Swiper('.mySwiperOthers',   swiperConfig);
 
-    // 4. Fungsi Ambil Data dari Google Sheets
+    /* 3 — Pricing from Google Sheets */
     async function loadPricingFromSheet() {
         const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXBJDixgfr5eLncrnlRQWkovEr1FlbSPAFoQ1rl9hQAREGNAsoUIeBLpqRn3k3pEA-RcSuOPI7s4O0/pub?output=csv';
-        
+
         try {
             const response = await fetch(sheetUrl);
-            const data = await response.text();
-            const rows = data.split('\n').slice(1); 
-            
-            let htmlContent = '';
-            
+            const text     = await response.text();
+            const rows     = text.split('\n').slice(1).filter(r => r.trim() !== '');
+
+            let html = '';
+
             rows.forEach((row, index) => {
                 const cols = row.split(',');
                 if (cols.length < 2) return;
 
-                const namaPaket = cols[0]; // A
-                const hargaAsli = cols[1]; // B
-                const fitur1    = cols[2]; // C
-                const fitur2    = cols[3]; // D
-                const fitur3    = cols[4]; // E
-                const hargaPromo = cols[5]; // F
-                const promoTag   = cols[6]; // G
-                
-                const delay = (index + 1) * 100;
+                const namaPaket  = (cols[0] || '').trim();
+                const hargaAsli  = (cols[1] || '').trim();
+                const fitur1     = (cols[2] || '').trim();
+                const fitur2     = (cols[3] || '').trim();
+                const fitur3     = (cols[4] || '').trim();
+                const hargaPromo = (cols[5] || '').trim();
+                const promoTag   = (cols[6] || '').trim();
 
-                let tampilanHarga = '';
-                let badgeHtml = '';
+                const delay          = (index + 1) * 120;
+                const isPromoAngka   = !isNaN(parseFloat(hargaPromo)) && isFinite(hargaPromo) && hargaPromo !== '0';
+                const badgeHtml      = promoTag ? `<div class="promo-badge">${promoTag.toUpperCase()}</div>` : '';
 
-                // --- LOGIKA BADGE ---
-                if (promoTag && promoTag.trim() !== "") {
-                    badgeHtml = `<div class="promo-badge">${promoTag.toUpperCase()}</div>`;
-                }
+                const tampilanHarga = isPromoAngka
+                    ? `<span class="price-original">Rp ${Number(hargaAsli).toLocaleString('id-ID')}</span>
+                       <h2 class="my-2 price-promo">Rp ${Number(hargaPromo).toLocaleString('id-ID')}</h2>`
+                    : `<h2 class="my-4">Rp ${Number(hargaAsli).toLocaleString('id-ID')}</h2>`;
 
-                // --- LOGIKA HARGA (Cegah NaN jika isi kolom F adalah teks) ---
-                const isPromoAngka = !isNaN(parseFloat(hargaPromo)) && isFinite(hargaPromo);
-
-                if (isPromoAngka && hargaPromo.trim() !== "0") {
-                    tampilanHarga = `
-                        <span class="price-original">Rp ${Number(hargaAsli).toLocaleString('id-ID')}</span>
-                        <h2 class="my-2 price-promo">Rp ${Number(hargaPromo).toLocaleString('id-ID')}</h2>`;
-                } else {
-                    tampilanHarga = `<h2 class="my-4">Rp ${Number(hargaAsli).toLocaleString('id-ID')}</h2>`;
-                }
-
-                // --- LOGIKA PESAN WA OTOMATIS ---
                 const pesanWA = encodeURIComponent(`Halo NocturnalStory, saya tertarik untuk booking *Paket ${namaPaket}*. Mohon informasi lebih lanjut.`);
-                const linkWA = `https://wa.me/6285725493220?text=${pesanWA}`;
+                const linkWA  = `https://wa.me/6285725493220?text=${pesanWA}`;
 
-                htmlContent += `
-                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="${delay}">
-                        <div class="price-card"> 
-                            ${badgeHtml}
-                            <h6 class="fw-bold opacity-50">${namaPaket.toUpperCase()}</h6>
-                            ${tampilanHarga}
-                            <ul class="list-unstyled mb-5 small opacity-75 text-start">
-                                <li class="mb-2"><i class="fas fa-check me-2 text-success"></i> ${fitur1}</li>
-                                <li class="mb-2"><i class="fas fa-check me-2 text-success"></i> ${fitur2}</li>
-                                <li class="mb-2"><i class="fas fa-check me-2 text-success"></i> ${fitur3}</li>
-                            </ul>
-                            <a href="${linkWA}" target="_blank" class="btn btn-gold-custom w-100">Book Session</a>
-                        </div>
-                    </div>`;
+                html += `
+                <div class="col-md-4" data-aos="zoom-in" data-aos-delay="${delay}">
+                    <div class="price-card">
+                        ${badgeHtml}
+                        <p class="package-name">${namaPaket.toUpperCase()}</p>
+                        ${tampilanHarga}
+                        <ul class="list-unstyled mb-4 small text-start mt-3">
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color:var(--gold)"></i>${fitur1}</li>
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color:var(--gold)"></i>${fitur2}</li>
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color:var(--gold)"></i>${fitur3}</li>
+                        </ul>
+                        <a href="${linkWA}" target="_blank" class="btn-gold-custom w-100 d-block text-center">Book Session</a>
+                    </div>
+                </div>`;
             });
-            
-            document.getElementById('pricing-container').innerHTML = htmlContent;
+
+            document.getElementById('pricing-container').innerHTML = html || '<p class="text-center opacity-50">Tidak ada paket tersedia.</p>';
             AOS.refresh();
-            
-        } catch (error) {
-            console.error('Error fetching sheet:', error);
-            document.getElementById('pricing-container').innerHTML = '<p class="text-danger">Gagal memuat harga promo.</p>';
+
+        } catch (err) {
+            console.error('Error fetching pricing sheet:', err);
+            document.getElementById('pricing-container').innerHTML =
+                '<p class="text-center text-danger">Gagal memuat daftar paket.</p>';
         }
     }
-
-
 
     loadPricingFromSheet();
 
+    /* 4 — Scroll to gallery */
     function scrollToGallery() {
         document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
     }
-    
-        window.addEventListener('scroll', function() {
-        const backToTop = document.querySelector('#backToTop');
-        if (window.scrollY > 500) {
-            backToTop.classList.add('show');
-        } else {
-            backToTop.classList.remove('show');
+
+    /* 5 — Back to top visibility */
+    window.addEventListener('scroll', () => {
+        document.getElementById('backToTop').classList.toggle('show', window.scrollY > 500);
+    });
+
+    /* 6 — Hero parallax */
+    window.addEventListener('scroll', () => {
+        const el  = document.getElementById('hero-parallax');
+        const val = window.scrollY;
+        if (el) {
+            el.style.transform = `translateY(${val * 0.28}px)`;
+            el.style.opacity   = Math.max(0, 1 - val / 650);
         }
     });
 
-// Script untuk menutup menu hamburger secara otomatis setelah klik
-document.querySelectorAll('.nav-link-custom').forEach(link => {
-    link.addEventListener('click', () => {
-        const navbarCollapse = document.getElementById('mainNav');
-        // Hanya jalankan fungsi tutup jika menu sedang dalam keadaan terbuka (untuk mobile)
-        if (navbarCollapse.classList.contains('show')) {
-            const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-            bsCollapse.hide();
-        }
-    });
-});
-
-
-</script>
-
-<div id="cursor"></div>
-<script>
-    const cursor = document.querySelector('#cursor');
-    document.addEventListener('mousemove', (e) => {
+    /* 7 — Custom cursor */
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
         cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        cursor.style.top  = e.clientY + 'px';
     });
-    
-   </script>
-   <script>
-    window.addEventListener('scroll', function() {
-        const scrollValue = window.scrollY;
-        const heroText = document.querySelector('#hero-parallax');
-        // Menggerakkan hero ke bawah sedikit saat scroll (efek parallax)
-        heroText.style.transform = `translateY(${scrollValue * 0.3}px)`;
-        heroText.style.opacity = 1 - (scrollValue / 700); // Menghilang perlahan saat scroll
+
+    /* 8 — Auto close navbar on mobile link click */
+    document.querySelectorAll('.nav-link-custom').forEach(link => {
+        link.addEventListener('click', () => {
+            const nav = document.getElementById('mainNav');
+            if (nav.classList.contains('show')) {
+                bootstrap.Collapse.getInstance(nav)?.hide();
+            }
+        });
     });
 </script>
 
-   
 </body>
 </html>
